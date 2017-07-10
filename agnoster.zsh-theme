@@ -72,7 +72,7 @@ prompt_context() {
   local user=`whoami`
 
   if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user@%m "
+    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user "
   fi
 }
 
@@ -98,6 +98,13 @@ prompt_git() {
     fi
     prompt_segment $color $PRIMARY_FG
     print -Pn " $ref"
+  fi
+}
+
+# Pyenv: python virtual environment info
+prompt_pyenv() {
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    prompt_segment white black " py:${VIRTUAL_ENV:t} "
   fi
 }
 
@@ -137,6 +144,7 @@ prompt_agnoster_main() {
   prompt_context
   prompt_virtualenv
   prompt_dir
+  prompt_pyenv
   prompt_git
   prompt_end
 }
